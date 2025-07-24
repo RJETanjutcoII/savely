@@ -1,0 +1,23 @@
+import React from 'react'
+
+const LongDeals = ({name, oldPrice, newPrice, image, description}) => {
+
+  let discount = ((1 - newPrice / oldPrice) * 100).toFixed();
+
+  return (
+    <section className="ml-60 mt-20">
+        <div className="flex">
+            <div className="grid col-start-1 row-start-1 text-center">
+                <img src={image} className="col-start-1 row-start-1 h-60 w-80 object-cover mb-5 rounded-3xl  min-w-80"/>
+                <span className="col-start-1 row-start-1 bg-green-400 w-30 h-10 rounded-xl pt-1.5 ml-2 mt-2 text-white text-xl">{discount}% off!</span>
+            </div>
+            <span className="ml-4">
+                <div className="text-5xl mb-2 text-black font-bold font-primary">{name}</div>
+                <div>{description}</div>
+            </span>
+        </div>
+    </section>
+  )
+}
+
+export default LongDeals
