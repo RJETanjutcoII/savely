@@ -11,7 +11,6 @@ export default function Page() {
         <div className="font-poppins">
             <MainLayout>
                 <Homepage />
-                <Link href="/browse-deals"><BrowseDeals /></Link>
             </MainLayout>
         </div>
     )
