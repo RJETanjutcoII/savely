@@ -12,14 +12,14 @@ const Categories = () => {
         </div>
         <div>
           <div className="items-center flex mb-20 justify-center">
-            <Category />
-            <Category />
-            <Category />
+            <Category name="Restaurants"/>
+            <Category name="Clothing"/>
+            <Category name="Things To Do"/>
           </div>
           <div className="items-center flex mb-20 justify-center">
-            <Category />
-            <Category />
-            <Category />
+            <Category name="Beauty & Wellness"/>
+            <Category name="Entertainment"/>
+            <Category name="Sports & Recreation"/>
           </div>
         </div>
     </div>

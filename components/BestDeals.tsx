@@ -4,6 +4,7 @@ import React from 'react'
 import Deals from './Deals'
 import supabase from "../utils/supabase/client"
 import { useQuery } from '@tanstack/react-query'
+import Link from 'next/link'
 
 const fetchDeals = async () => {
   const {data, error} = await supabase.from("coupons").select("*").limit(3)
@@ -37,25 +38,25 @@ const BestDeals = () => {
         <div className="items-center flex mb-20 justify-evenly">
           {isLoading || !deals ? (
             <div className="flex shrink-0 justify-evenly">
-              <Deals name="Loading" className="flex shrink-0"/>
-              <Deals name="Loading" className="flex shrink-0"/>
-              <Deals name="Loading" className="flex shrink-0"/>
+              <Deals id={0} name="Loading" oldPrice={0} newPrice={0}/>
+              <Deals id={0} name="Loading" oldPrice={0} newPrice={0}/>
+              <Deals id={0} name="Loading" oldPrice={0} newPrice={0}/>
             </div>
           ) : (
           deals.map((deal, index) => (
             <Deals
               key={deal.id}
+              id={deal.id}
               name={deal.name}
               oldPrice={deal.oldPrice}
               newPrice={deal.newPrice}
               image={deal.imageLink}
-              className="flex shrink-0"
             />
           ))
         )}
         </div>
         <div className='items-center text-center'>
-          <a className="px-2 text-blue-700 bg-white rounded-lg py-3 font-bold border-1 border-blue-700">See More Deals</a>
+          <Link href="/browse-deals" className="px-2 text-blue-700 bg-white rounded-lg py-3 font-bold border-1 border-blue-700">See More Deals</Link>
         </div>
     </section>
   )

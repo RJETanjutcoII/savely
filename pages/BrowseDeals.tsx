@@ -33,7 +33,7 @@ const BrowseDeals = () => {
   return (
     <>
       {deals?.map((deal, index) => (
-        <LongDeals key={deal.id} name={deal.name} image={deal.imageLink} oldPrice={deal.oldPrice} newPrice={deal.newPrice} description={deal.description} />
+        <LongDeals key = {deal.id} id={deal.id} name={deal.name} image={deal.imageLink} oldPrice={deal.oldPrice} newPrice={deal.newPrice} description={deal.description} />
       ))}
       
     </>

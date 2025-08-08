@@ -1,10 +1,10 @@
-import BrowseDeals from "@/pages/BrowseDeals";
+import ID from "@/pages/ID";
 import MainLayout from "@/layouts/MainLayout";
 
 export default function BrowseDealsPage() {
   return (
     <MainLayout>
-      <BrowseDeals />
+      <ID />
     </MainLayout>
   );
 }

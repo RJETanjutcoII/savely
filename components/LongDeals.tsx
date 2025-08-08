@@ -1,11 +1,22 @@
-import React from 'react'
+import React, {type ComponentProps} from 'react'
+import Link from 'next/link';
 
-const LongDeals = ({name, oldPrice, newPrice, image, description}) => {
+type LongDealsProps = {
+  id: number
+  name: string
+  oldPrice: number
+  newPrice: number
+  image: string
+  description: string
+}
+
+function LongDeals ({id, name, oldPrice, newPrice, image, description}: LongDealsProps) {
 
   let discount = ((1 - newPrice / oldPrice) * 100).toFixed();
 
   return (
     <section className="ml-60 mt-20">
+      <Link href={`/products/${id}`}>
         <div className="flex">
             <div className="grid col-start-1 row-start-1 text-center">
                 <img src={image} className="col-start-1 row-start-1 h-60 w-80 object-cover mb-5 rounded-3xl  min-w-80"/>
@@ -16,6 +27,7 @@ const LongDeals = ({name, oldPrice, newPrice, image, description}) => {
                 <div>{description}</div>
             </span>
         </div>
+      </Link>
     </section>
   )
 }
