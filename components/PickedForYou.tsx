@@ -2,8 +2,9 @@
 
 import React from 'react'
 import Picked from './Picked'
-import supabase from "../utils/supabase/client"
+import { supabase } from "../utils/supabase/client"
 import { useQuery } from '@tanstack/react-query'
+
 
 const fetchPicked = async() => {
   const {data, error} = await supabase.from("coupons").select("*").limit(3);
@@ -35,20 +36,20 @@ const PickedForYou = () => {
         </div>
         <div className="items-center flex justify-evenly shrink">
           {isLoading || !picks ? (
-            <div>
-              <Picked />
-              <Picked />
-              <Picked />
-            </div>
+            <>
+              <Picked name="Loading..." id={0} oldPrice={0} newPrice={0} image="null"/>
+              <Picked name="Loading..." id={0} oldPrice={0} newPrice={0} image="null"/>
+              <Picked name="Loading..." id={0} oldPrice={0} newPrice={0} image="null"/>
+            </>
           ) : (
             picks.map((pick, index) => (
-              <Picked 
+              <Picked
+                id={pick.id}
                 key={pick.id}
                 name={pick.name}
                 oldPrice={pick.oldPrice}
                 newPrice={pick.newPrice}
                 image={pick.imageLink}
-                className="flex shrink-0"
               />
             ))
           )}

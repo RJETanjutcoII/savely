@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Deals from './Deals'
-import supabase from "../utils/supabase/client"
+import { supabase } from '@/utils/supabase/client'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 
@@ -28,6 +28,9 @@ const BestDeals = () => {
   } = useQuery({
     queryKey: ["deals"],
     queryFn: fetchDeals,
+    staleTime: 6000,
+    refetchInterval: 6000,
+    refetchOnWindowFocus: false,
   })
 
   return (
@@ -37,11 +40,17 @@ const BestDeals = () => {
         </div>
         <div className="items-center flex mb-20 justify-evenly">
           {isLoading || !deals ? (
-            <div className="flex shrink-0 justify-evenly">
-              <Deals id={0} name="Loading" oldPrice={0} newPrice={0}/>
-              <Deals id={0} name="Loading" oldPrice={0} newPrice={0}/>
-              <Deals id={0} name="Loading" oldPrice={0} newPrice={0}/>
-            </div>
+            <>
+              {[1, 2, 3].map((num) => (
+                <Deals
+                  key={`loading-${num}`}
+                  id={0}
+                  name="Loading"
+                  oldPrice={0}
+                  newPrice={0}
+                />
+              ))}
+            </>
           ) : (
           deals.map((deal, index) => (
             <Deals

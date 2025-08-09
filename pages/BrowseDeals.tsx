@@ -2,7 +2,7 @@
 
 import React from 'react'
 import LongDeals from '../components/LongDeals'
-import supabase from "../utils/supabase/client"
+import { supabase } from "../utils/supabase/client"
 import { useQuery } from '@tanstack/react-query'
 
 

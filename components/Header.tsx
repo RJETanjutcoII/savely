@@ -24,8 +24,8 @@ const Header = () => {
                         <input className='h-15 w-auto pl-10' placeholder='Search' />
                     </div>
                     <a><FaShoppingCart className="items-center h-15 mr-6" /></a>
-                    <a className="text-black hover:bg-blue-400 hover:text-white rounded-xl mt-2 px-10 py-2 border-1 border-solid border-black font-bold h-10">Login</a>
-                    <a className="text-white bg-linear-to-t from-fuchsia-600 to-blue-700 rounded-xl mt-2 px-10 py-2 hover:text-black font-bold h-10">Sign Up</a>
+                    <Link href={`/login`} className="text-black hover:bg-blue-400 hover:text-white rounded-xl mt-2 px-10 py-2 border-1 border-solid border-black font-bold h-10">Login</Link>
+                    <Link href={`/sign-up`} className="text-white bg-linear-to-t from-fuchsia-600 to-blue-700 rounded-xl mt-2 px-10 py-2 hover:text-black font-bold h-10">Sign Up</Link>
                 </div>
               </div>
             </div>

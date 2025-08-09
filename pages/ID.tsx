@@ -3,7 +3,7 @@
 import React from "react"
 import { useParams } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
-import supabase from "@/utils/supabase/client"
+import { supabase } from "@/utils/supabase/client"
 
 const fetchDealById = async (id: string) => {
   const { data, error } = await supabase
@@ -20,7 +20,7 @@ const fetchDealById = async (id: string) => {
 }
 
 const ProductPage = () => {
-  const { id } = useParams<{ id: string }>()
+  const { id } = useParams() as { id: string }
 
   const {
     data: deal,
