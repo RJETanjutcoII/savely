@@ -6,6 +6,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "@/utils/supabase/client";
 import { ensureProfileFromMetadata } from "@/utils/validation/ensureProfile";
+import { useRouter } from "next/navigation"; // ✅ import router
 
 const LoginSchema = z.object({
   email: z.string().trim().toLowerCase().email("Enter a valid email"),
@@ -14,6 +15,8 @@ const LoginSchema = z.object({
 type LoginInput = z.infer<typeof LoginSchema>;
 
 export default function Login() {
+  const router = useRouter(); // ✅ initialize router
+
   const {
     register,
     handleSubmit,
@@ -37,16 +40,14 @@ export default function Login() {
       return;
     }
 
-    // Signed in → finish creating/updating profile from metadata (username).
     try {
       await ensureProfileFromMetadata();
     } catch (e: any) {
-      // Optional: if username is taken/missing, route to a “Pick a username” screen
       console.warn("Profile ensure failed:", e?.message || e);
     }
 
     setSuccess(true);
-    // e.g., router.push("/dashboard");
+    router.push("/"); // ✅ redirect to homepage
   };
 
   return (
