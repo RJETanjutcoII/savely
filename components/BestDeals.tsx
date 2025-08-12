@@ -35,15 +35,16 @@ export default async function BestDeals() {
         </h1>
       </div>
 
-      <div className="flex justify-evenly mb-20">
+      <div className="flex justify-evenly mb-25">
         {(deals ?? []).map((deal) => (
           <Deals
             key={deal.id}
             id={deal.id}
             name={deal.name}
-            oldPrice={deal.oldPrice}
-            newPrice={deal.newPrice}
-            image={deal.imageLink}
+            oldPrice={deal.old_price}
+            newPrice={deal.new_price}
+            image={deal.image}
+            expDate={deal.exp_date}
           />
         ))}
       </div>

@@ -11,7 +11,7 @@ export default async function AccountPage() {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("username")
+    .select("username, points")
     .eq("id", user.id)
     .single();
 
@@ -21,9 +21,13 @@ export default async function AccountPage() {
         My Account
       </h1>
 
-      <div className="mt-6 bg-gray-50 rounded-lg p-6 shadow-md space-y-4">
+      <div className="mt-6 bg-gray-50 rounded-lg p-6 shadow-md space-y-4 mb-20">
         <p><span className="font-semibold">Email:</span> {user.email}</p>
         <p><span className="font-semibold">Username:</span> {profile?.username ?? "Not set"}</p>
+      </div>
+
+      <div className="text-3xl mb-20">
+        You have: <span className="font-extrabold bg-gradient-to-r from-blue-950 to-violet-700 text-transparent bg-clip-text">{profile?.points}</span> points!
       </div>
 
       <form
@@ -36,7 +40,7 @@ export default async function AccountPage() {
       >
         <button
           type="submit"
-          className="mt-6 px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+          className="mt-6 px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 mb-30"
         >
           Log Out
         </button>

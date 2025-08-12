@@ -1,16 +1,18 @@
 import React, {type ComponentProps} from 'react'
 import Link from 'next/link';
+import Countdown from './Countdown';
 
 type LongDealsProps = {
   id: number
   name: string
   oldPrice: number
   newPrice: number
-  image: string
+  image?: string
   description: string
+  expDate: string
 }
 
-function LongDeals ({id, name, oldPrice, newPrice, image, description}: LongDealsProps) {
+function LongDeals ({id, name, oldPrice, newPrice, image, description, expDate}: LongDealsProps) {
 
   let discount = ((1 - newPrice / oldPrice) * 100).toFixed();
 
@@ -21,6 +23,7 @@ function LongDeals ({id, name, oldPrice, newPrice, image, description}: LongDeal
             <div className="grid col-start-1 row-start-1 text-center">
                 <img src={image} className="col-start-1 row-start-1 h-60 w-80 object-cover mb-5 rounded-3xl  min-w-80"/>
                 <span className="col-start-1 row-start-1 bg-green-400 w-30 h-10 rounded-xl pt-1.5 ml-2 mt-2 text-white text-xl">{discount}% off!</span>
+                <Countdown expDate={expDate} />
             </div>
             <span className="ml-4">
                 <div className="text-5xl mb-2 text-black font-bold font-primary">{name}</div>

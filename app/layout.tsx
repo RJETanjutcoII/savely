@@ -37,9 +37,8 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${poppins.variable} antialiased`}>
+      <body className={`${poppins.className} antialiased`} suppressHydrationWarning>
         <QueryProvider>
-          {/* Hydrate auth state for client components */}
           <AuthProvider initialUser={user} initialUsername={username}>
             {children}
           </AuthProvider>

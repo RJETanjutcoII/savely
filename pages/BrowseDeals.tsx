@@ -1,43 +1,40 @@
-"use client"
+export const revalidate = 60;
 
 import React from 'react'
 import LongDeals from '../components/LongDeals'
-import { supabase } from "../utils/supabase/client"
-import { useQuery } from '@tanstack/react-query'
+import { createClient } from "../utils/supabase/server"
 
+export default async function BrowseDeals() {
 
-const fetchDeals = async () => {
-  const {data, error} = await supabase.from("coupons").select("*")
+  const supabase = await createClient();
+
+  const { data: deals, error } = await supabase
+    .from("coupons")
+    .select("*")
+    .eq("is_available", true)
+    .limit(3);
+    
 
   if (error) {
-    throw new Error(error.message)
+    console.log(error);
+    return (
+      <section className="bg-white pt-10 pb-10">
+        <div className="mx-auto px-4 sm:px-6 lg:px-8 text-center mb-10">
+          <h1 className="text-5xl font-extrabold bg-gradient-to-l from-blue-950 to-violet-700 text-transparent bg-clip-text pb-2">
+            Best Selling Deals
+          </h1>
+          <p className="mt-4 text-gray-600">Couldn’t load deals right now.</p>
+        </div>
+      </section>
+    );
   }
-
-  return data
-}
-
-const BrowseDeals = () => {
-
-  const {
-    data: deals,
-    isLoading,
-    isError,
-    error,
-    refetch,
-    isFetching,
-  } = useQuery({
-    queryKey: ["deals"],
-    queryFn: fetchDeals,
-  })
 
   return (
     <>
-      {deals?.map((deal, index) => (
-        <LongDeals key = {deal.id} id={deal.id} name={deal.name} image={deal.imageLink} oldPrice={deal.oldPrice} newPrice={deal.newPrice} description={deal.description} />
+      {(deals ?? []).map((deal) => (
+        <LongDeals key={deal.id} id={deal.id} name={deal.name} image={deal.image} oldPrice={deal.old_price} newPrice={deal.new_price} description={deal.description} expDate={deal.exp_date}/>
       ))}
       
     </>
   )
 }
-
-export default BrowseDeals
