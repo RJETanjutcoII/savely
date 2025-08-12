@@ -31,13 +31,16 @@ export default function Header({ userEmail = null, username = null}: HeaderProps
               <div className="flex space-x-2 items-center">
                 <div className="flex items-center">
                   <CiSearch className="-mr-9" />
-                  <input className="h-15 w-auto pl-10" placeholder="Search" />
+                  <input className="h-15 pl-10 pr-5 rounded-3xl" placeholder="Search" style={{ WebkitOverflowScrolling: "touch", }}/>
                 </div>
 
-                <FaShoppingCart className="items-center h-15 mr-6" />
+                
 
                 {welcome ? (
+                  <>
+                  <FaShoppingCart className="items-center h-15 mr-6" />
                   <Link className="font-bold" href="/account">Welcome, {welcome}</Link>
+                  </>
                 ) : (
                   <>
                     <Link
