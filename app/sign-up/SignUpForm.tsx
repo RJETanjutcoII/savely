@@ -1,3 +1,4 @@
+// app/sign-up/SignUpForm.tsx
 "use client";
 
 import React from "react";
@@ -8,7 +9,9 @@ import { SignUpSchema, type SignUpInput } from "@/utils/validation/signUp";
 
 type UsernameStatus = "idle" | "checking" | "available" | "taken" | "error";
 
-export default function SignUp() {
+const UsernameOnly = SignUpSchema.pick({ username: true })
+
+export default function SignUpForm() {
   const {
     register,
     handleSubmit,
@@ -20,16 +23,13 @@ export default function SignUp() {
   const [usernameStatus, setUsernameStatus] = React.useState<UsernameStatus>("idle");
   const [success, setSuccess] = React.useState(false);
   const usernameValue = watch("username");
-  const debounceRef = React.useRef<number | null>(null);
+  const debounceRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  // Debounced async username availability check (UX only; DB is still the source of truth later)
   React.useEffect(() => {
-    // clear previous debounce
     if (debounceRef.current) window.clearTimeout(debounceRef.current);
 
-    // basic guard: if empty or invalid per Zod shape, don't call RPC
-    const parsed = (SignUpSchema.shape as any).username.safeParse?.(usernameValue);
-    const looksValid = parsed ? parsed.success : Boolean(usernameValue);
+    const parsed = UsernameOnly.safeParse({ username: usernameValue ?? "" })
+    const looksValid = parsed.success;
 
     if (!usernameValue || !looksValid) {
       setUsernameStatus("idle");
@@ -37,7 +37,7 @@ export default function SignUp() {
     }
 
     setUsernameStatus("checking");
-    debounceRef.current = window.setTimeout(async () => {
+    debounceRef.current = setTimeout(async () => {
       try {
         const { data, error } = await supabase.rpc("is_username_available", { u: usernameValue });
         if (error || typeof data !== "boolean") {
@@ -48,11 +48,10 @@ export default function SignUp() {
       } catch {
         setUsernameStatus("error");
       }
-    }, 450); // ~half-second debounce
+    }, 450);
   }, [usernameValue]);
 
   const onSubmit = async ({ email, password, username }: SignUpInput) => {
-    // If we already know it's taken from the async check, block early
     if (usernameStatus === "taken") {
       setError("username", { message: "That username is already taken." });
       return;
@@ -61,21 +60,22 @@ export default function SignUp() {
     const { error } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { username } }, // store username in metadata for later profile creation
+      options: { data: { username } },
     });
 
     if (error) {
       const msg = error.message.toLowerCase();
       setSuccess(false);
-      setError(
-        "email",
-        { message: msg.includes("already") && msg.includes("register") ? "That email is already in use." : error.message },
-      );
+      setError("email", {
+        message:
+          msg.includes("already") && msg.includes("register")
+            ? "That email is already in use."
+            : error.message,
+      });
       return;
     }
 
     setSuccess(true);
-    // Optional: localStorage.setItem("pending_username", username);
   };
 
   const pending = isSubmitting;
@@ -87,7 +87,6 @@ export default function SignUp() {
       </h1>
 
       <form className="text-3xl" onSubmit={handleSubmit(onSubmit)} noValidate>
-        {/* Email */}
         <label htmlFor="email">Email</label>
         <input
           id="email"
@@ -99,7 +98,6 @@ export default function SignUp() {
         {errors.email && <p className="mt-2 text-base text-red-600">{errors.email.message}</p>}
         <div className="mb-6" />
 
-        {/* Username */}
         <label htmlFor="username">Username</label>
         <input
           id="username"
@@ -108,7 +106,6 @@ export default function SignUp() {
           {...register("username")}
           aria-invalid={!!errors.username}
         />
-        {/* Inline username status helper */}
         {!errors.username && usernameValue && (
           <p className="mt-2 text-base">
             {usernameStatus === "checking" && "Checking username…"}
@@ -120,7 +117,6 @@ export default function SignUp() {
         {errors.username && <p className="mt-2 text-base text-red-600">{errors.username.message}</p>}
         <div className="mb-6" />
 
-        {/* Password */}
         <label htmlFor="password">Password</label>
         <input
           id="password"
@@ -130,9 +126,7 @@ export default function SignUp() {
           {...register("password")}
           aria-invalid={!!errors.password}
         />
-        {errors.password && (
-          <p className="mt-2 text-base text-red-600">{errors.password.message}</p>
-        )}
+        {errors.password && <p className="mt-2 text-base text-red-600">{errors.password.message}</p>}
 
         <div className="mt-10">
           <button

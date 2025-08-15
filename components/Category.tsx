@@ -1,5 +1,6 @@
 import React, {type ComponentProps} from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 type CategoryProps = {
     name: string
@@ -12,7 +13,7 @@ function Category ({name, numDeals, image}: CategoryProps)  {
     <div className="mx-10">
         <Link href='/'>
             <div>
-                <img src="null" className="h-60 w-100 min-w-100"/>
+              {/*  <Image src="null" className="h-60 w-100 min-w-100" width={100} height={60} alt={name}/> */}
             </div>
             <div className="bold text-2xl">
                 {name}

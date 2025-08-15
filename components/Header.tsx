@@ -38,7 +38,7 @@ export default function Header({ userEmail = null, username = null}: HeaderProps
 
                 {welcome ? (
                   <>
-                  <FaShoppingCart className="items-center h-15 mr-6" />
+                  <Link href="/shopping-cart"><FaShoppingCart className="items-center h-15 mr-6" /></Link>
                   <Link className="font-bold" href="/account">Welcome, {welcome}</Link>
                   </>
                 ) : (

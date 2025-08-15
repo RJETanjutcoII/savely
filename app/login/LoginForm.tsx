@@ -1,3 +1,4 @@
+// app/login/LoginForm.tsx
 "use client";
 
 import React from "react";
@@ -6,7 +7,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "@/utils/supabase/client";
 import { ensureProfileFromMetadata } from "@/utils/validation/ensureProfile";
-import { useRouter } from "next/navigation"; // ✅ import router
+import { useRouter } from "next/navigation";
 
 const LoginSchema = z.object({
   email: z.string().trim().toLowerCase().email("Enter a valid email"),
@@ -14,8 +15,8 @@ const LoginSchema = z.object({
 });
 type LoginInput = z.infer<typeof LoginSchema>;
 
-export default function Login() {
-  const router = useRouter(); // ✅ initialize router
+export default function LoginForm() {
+  const router = useRouter();
 
   const {
     register,
@@ -42,12 +43,16 @@ export default function Login() {
 
     try {
       await ensureProfileFromMetadata();
-    } catch (e: any) {
-      console.warn("Profile ensure failed:", e?.message || e);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        console.warn("Profile ensure failed:", e.message);
+      } else {
+        console.warn("Profile ensure failed:", String(e));
+      }
     }
 
     setSuccess(true);
-    router.push("/"); // ✅ redirect to homepage
+    router.push("/"); // redirect to homepage
   };
 
   return (
@@ -85,15 +90,13 @@ export default function Login() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="px-10 bg-blue-800 rounded-xl text-white font-bold py-3 disabled:opacity-60"
+            className="px-10 bg-blue-800 rounded-xl text-white font-bold py-3 disabled:opacity-60 mb-40"
           >
             {isSubmitting ? "Logging in..." : "Log In"}
           </button>
         </div>
 
-        {success && (
-          <p className="mt-4 text-xl text-green-700">Logged in! Redirecting…</p>
-        )}
+        {success && <p className="mt-4 text-xl text-green-700">Logged in! Redirecting…</p>}
       </form>
     </section>
   );

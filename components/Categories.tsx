@@ -16,7 +16,7 @@ const Categories = () => {
             <Category name="Clothing"/>
             <Category name="Things To Do"/>
           </div>
-          <div className="items-center flex mb-20 justify-center">
+          <div className="items-center flex justify-center">
             <Category name="Beauty & Wellness"/>
             <Category name="Entertainment"/>
             <Category name="Sports & Recreation"/>

@@ -1,0 +1,22 @@
+import React from 'react'
+import Link from 'next/link'
+
+const Navbar = () => {
+
+  // REPLACE LinkS WITH LINKS
+
+  return (
+    <nav className="bg-white">
+        <Link className="flex items-center mx-auto max-w-3xl h-14 text-nowrap font-bold">
+            <Link className="mx-3">Restaurants</Link>
+            <Link className="mx-3">Clothing</Link>
+            <Link className="mx-3">Things To Do</Link>
+            <Link className="mx-3">Beauty & Wellness</Link>
+            <Link className="mx-3">Entertainment</Link>
+            <Link className="mx-3">Sports & Recreation</Link>
+        </Link>
+    </nav>
+  )
+}
+
+export default Navbar

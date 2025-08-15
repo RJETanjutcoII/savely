@@ -3,7 +3,7 @@ import React from "react";
 import { createClient } from "@/utils/supabase/server";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
+// import Navbar from "@/components/Navbar";
 
 export default async function MainLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
@@ -22,7 +22,7 @@ export default async function MainLayout({ children }: { children: React.ReactNo
   return (
     <main>
       <Header userEmail={user?.email ?? null} username={username} />
-      <Navbar />
+      {/* <Navbar />*/}
       {children}
       <Footer />
     </main>

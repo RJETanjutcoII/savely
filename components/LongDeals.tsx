@@ -1,27 +1,28 @@
-import React, {type ComponentProps} from 'react'
+import React from 'react'
 import Link from 'next/link';
 import Countdown from './Countdown';
+import Image from 'next/image';
 
 type LongDealsProps = {
   id: number
   name: string
   oldPrice: number
   newPrice: number
-  image?: string
+  image: string
   description: string
   expDate: string
 }
 
 function LongDeals ({id, name, oldPrice, newPrice, image, description, expDate}: LongDealsProps) {
 
-  let discount = ((1 - newPrice / oldPrice) * 100).toFixed();
+  const discount = ((1 - newPrice / oldPrice) * 100).toFixed();
 
   return (
     <section className="ml-60 mt-20">
       <Link href={`/products/${id}`}>
         <div className="flex">
             <div className="grid col-start-1 row-start-1 text-center">
-                <img src={image} className="col-start-1 row-start-1 h-60 w-80 object-cover mb-5 rounded-3xl  min-w-80"/>
+                <Image src={image} className="col-start-1 row-start-1 h-60 w-80 object-cover mb-5 rounded-3xl  min-w-80" alt={name} width={640} height={480}/>
                 <span className="col-start-1 row-start-1 bg-green-400 w-30 h-10 rounded-xl pt-1.5 ml-2 mt-2 text-white text-xl">{discount}% off!</span>
                 <Countdown expDate={expDate} />
             </div>

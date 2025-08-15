@@ -16,7 +16,7 @@ export default async function BestDeals() {
   if (error) {
     console.log(error);
     return (
-      <section className="bg-white pt-10 pb-10">
+      <section className="bg-slate-50 pt-10 pb-10">
         <div className="mx-auto px-4 sm:px-6 lg:px-8 text-center mb-10">
           <h1 className="text-5xl font-extrabold bg-gradient-to-l from-blue-950 to-violet-700 text-transparent bg-clip-text pb-2">
             Best Selling Deals
@@ -28,7 +28,7 @@ export default async function BestDeals() {
   }
 
   return (
-    <section className="bg-white pt-10 pb-10">
+    <section className="bg-slate-50 pt-10 pb-10">
       <div className="mx-auto px-4 sm:px-6 lg:px-8 text-center mb-10">
         <h1 className="text-5xl font-extrabold bg-gradient-to-l from-blue-950 to-violet-700 text-transparent bg-clip-text pb-2">
           Picked For You

@@ -1,11 +1,11 @@
 // app/sign-up/page.tsx  (NO "use client")
 import MainLayout from "@/layouts/MainLayout";
-import SignUpForm from "./SignUpForm";
+import CartPage from "./ShoppingCart";
 
 export default function Page() {
   return (
     <MainLayout>
-      <SignUpForm />
+      <CartPage />
     </MainLayout>
   );
 }

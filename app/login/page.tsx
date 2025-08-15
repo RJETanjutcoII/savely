@@ -1,11 +1,13 @@
-import Header from "@/components/Header";
-import Login from "@/pages/Login";
+// app/login/page.tsx
 
-export default function BrowseDealsPage() {
+"use server"
+import MainLayout from "@/layouts/MainLayout";
+import LoginForm from "./LoginForm";
+
+export default async function Page() {
   return (
-    <>
-      <Header />
-      <Login />
-    </>
+    <MainLayout>
+      <LoginForm />
+    </MainLayout>
   );
 }
