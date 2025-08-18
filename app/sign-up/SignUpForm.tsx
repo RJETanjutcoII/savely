@@ -39,7 +39,10 @@ export default function SignUpForm() {
     setUsernameStatus("checking");
     debounceRef.current = setTimeout(async () => {
       try {
-        const { data, error } = await supabase.rpc("is_username_available", { u: usernameValue });
+        const raw = usernameValue ?? "";
+        const normalized = raw.trim().toLowerCase()
+        const { data, error } = await supabase.rpc("is_username_available", { u: normalized });
+        console.log("u check", {usernameValue, data, error})
         if (error || typeof data !== "boolean") {
           setUsernameStatus("error");
           return;

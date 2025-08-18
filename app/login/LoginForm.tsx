@@ -52,8 +52,13 @@ export default function LoginForm() {
     }
 
     setSuccess(true);
-    router.push("/"); // redirect to homepage
-  };
+    
+    await new Promise((r) => setTimeout(r, 500));
+    await supabase.auth.getSession();
+
+    router.replace("/");
+    router.refresh();
+  }
 
   return (
     <section className="mt-20 mx-80 h-full">
