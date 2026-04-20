@@ -18,7 +18,7 @@ function LongDeals ({id, name, oldPrice, newPrice, image, description, expDate}:
   const discount = ((1 - newPrice / oldPrice) * 100).toFixed();
 
   return (
-    <section className="ml-60 mt-20">
+    <section className="px-4 sm:px-16 md:px-32 lg:px-60 mt-20 max-w-6xl mx-auto">
       <Link href={`/products/${id}`}>
         <div className="flex">
             <div className="grid col-start-1 row-start-1 text-center">

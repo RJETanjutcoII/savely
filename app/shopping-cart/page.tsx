@@ -1,4 +1,4 @@
-// app/sign-up/page.tsx  (NO "use client")
+// app/shopping-cart/page.tsx
 import MainLayout from "@/layouts/MainLayout";
 import CartPage from "./ShoppingCart";
 

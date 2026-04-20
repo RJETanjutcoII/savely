@@ -4,24 +4,34 @@ import Link from "next/link";
 import Deals from "./Deals";
 import { createClient } from "@/utils/supabase/server";
 
-export default async function BestDeals() {
-  
-  const supabase = await createClient();
+type CouponRow = {
+  id: number;
+  name: string;
+  old_price: string | number;
+  new_price: string | number;
+  image: string;
+  exp_date: string;
+  is_available: boolean;
+  purchases: number;
+};
 
-  const { data: deals, error } = await supabase
-    .from("coupons")
-    .select("*")
-    .limit(3);
+export default async function PickedForYou() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  const { data: deals, error } = await supabase.rpc("get_picked_for_you", {
+    p_user_id: user?.id ?? null,
+  }) as { data: CouponRow[] | null; error: unknown };
 
   if (error) {
-    console.log(error);
+    console.error(error);
     return (
       <section className="bg-slate-50 pt-10 pb-10">
         <div className="mx-auto px-4 sm:px-6 lg:px-8 text-center mb-10">
           <h1 className="text-5xl font-extrabold bg-gradient-to-l from-blue-950 to-violet-700 text-transparent bg-clip-text pb-2">
-            Best Selling Deals
+            Picked For You
           </h1>
-          <p className="mt-4 text-gray-600">Couldn’t load deals right now.</p>
+          <p className="mt-4 text-gray-600">Couldn&apos;t load deals right now.</p>
         </div>
       </section>
     );
@@ -41,8 +51,8 @@ export default async function BestDeals() {
             key={deal.id}
             id={deal.id}
             name={deal.name}
-            oldPrice={deal.old_price}
-            newPrice={deal.new_price}
+            oldPrice={Number(deal.old_price)}
+            newPrice={Number(deal.new_price)}
             image={deal.image}
             expDate={deal.exp_date}
           />

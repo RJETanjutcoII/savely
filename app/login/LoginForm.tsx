@@ -61,7 +61,7 @@ export default function LoginForm() {
   }
 
   return (
-    <section className="mt-20 mx-80 h-full">
+    <section className="mt-20 mx-4 sm:mx-16 md:mx-40 lg:mx-80 h-full">
       <h1 className="text-7xl font-extrabold bg-gradient-to-r from-blue-950 to-violet-700 text-transparent bg-clip-text pb-5">
         Log In
       </h1>
@@ -72,6 +72,7 @@ export default function LoginForm() {
           id="email"
           className="border block mt-1 px-2 py-2 rounded-md"
           autoComplete="email"
+          maxLength={254}
           {...register("email")}
           aria-invalid={!!errors.email}
         />
@@ -84,6 +85,7 @@ export default function LoginForm() {
           className="border block mt-1 px-2 py-2 rounded-md"
           type="password"
           autoComplete="current-password"
+          maxLength={128}
           {...register("password")}
           aria-invalid={!!errors.password}
         />

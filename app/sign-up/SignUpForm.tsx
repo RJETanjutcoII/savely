@@ -42,7 +42,6 @@ export default function SignUpForm() {
         const raw = usernameValue ?? "";
         const normalized = raw.trim().toLowerCase()
         const { data, error } = await supabase.rpc("is_username_available", { u: normalized });
-        console.log("u check", {usernameValue, data, error})
         if (error || typeof data !== "boolean") {
           setUsernameStatus("error");
           return;
@@ -84,7 +83,7 @@ export default function SignUpForm() {
   const pending = isSubmitting;
 
   return (
-    <section className="mt-20 mx-80 h-full">
+    <section className="mt-20 mx-4 sm:mx-16 md:mx-40 lg:mx-80 h-full">
       <h1 className="text-7xl font-extrabold bg-gradient-to-r from-blue-950 to-violet-700 text-transparent bg-clip-text pb-5">
         Sign Up
       </h1>
@@ -95,6 +94,7 @@ export default function SignUpForm() {
           id="email"
           className="border block mt-1 pl-2 h-12 rounded-md w-105"
           autoComplete="email"
+          maxLength={254}
           {...register("email")}
           aria-invalid={!!errors.email}
         />
@@ -106,6 +106,7 @@ export default function SignUpForm() {
           id="username"
           className="border block mt-1 pl-2 h-12 rounded-md w-105"
           autoCapitalize="none"
+          maxLength={30}
           {...register("username")}
           aria-invalid={!!errors.username}
         />
@@ -126,6 +127,7 @@ export default function SignUpForm() {
           className="border block mt-1 pl-2 h-12 rounded-md w-105"
           type="password"
           autoComplete="new-password"
+          maxLength={128}
           {...register("password")}
           aria-invalid={!!errors.password}
         />

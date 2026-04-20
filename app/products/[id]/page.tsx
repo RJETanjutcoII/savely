@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import MainLayout from "@/layouts/MainLayout";
 import { createClient } from "@/utils/supabase/server";
 import AddToCart from "./AddToCart";
-import Countdown from "@/components/CountdownClient";
+import Countdown from "@/components/Countdown";
 import Image from "next/image";
 
 export default async function ProductPage({
@@ -12,8 +12,8 @@ export default async function ProductPage({
   params: Promise<{ id: string }>; // <- match Next's generated PageProps (Promise<any>)
 }) {
   const { id } = await params;     // <- await the params
-  const idNum = Number(id);
-  if (!Number.isFinite(idNum)) notFound();
+  const idNum = parseInt(id, 10);
+  if (!Number.isInteger(idNum) || idNum <= 0) notFound();
 
   const supabase = await createClient();
   const { data: deal, error } = await supabase
