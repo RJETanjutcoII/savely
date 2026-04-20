@@ -11,6 +11,8 @@ export default async function BestDeals() {
   const { data: deals, error } = await supabase
     .from("coupons")
     .select("*")
+    .eq("is_available", true)
+    .order("purchases", { ascending: false })
     .limit(3);
 
   if (error) {

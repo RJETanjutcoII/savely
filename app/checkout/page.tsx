@@ -2,6 +2,15 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import MainLayout from "@/layouts/MainLayout";
+import Image from "next/image";
+import { z } from "zod";
+
+const CheckoutSchema = z.object({
+  name:     z.string().trim().min(1).max(255),
+  phone:    z.string().trim().min(1).max(30),
+  address:  z.string().trim().min(1).max(500),
+  provider: z.enum(["gcash", "maya"]),
+});
 
 // Optional: export const dynamic = "force-dynamic";
 
@@ -51,11 +60,15 @@ export default async function CheckoutPage() {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) redirect("/login");
 
-    // Read form
-    const name = String(formData.get("name") || "").trim();
-    const phone = String(formData.get("phone") || "").trim();
-    const address = String(formData.get("address") || "").trim();
-    const provider = String(formData.get("provider") || "gcash"); // "gcash" | "maya"
+    // Validate form
+    const parsed = CheckoutSchema.safeParse({
+      name:     formData.get("name"),
+      phone:    formData.get("phone"),
+      address:  formData.get("address"),
+      provider: formData.get("provider"),
+    });
+    if (!parsed.success) redirect("/checkout?error=invalid_input");
+    const { name, phone, address, provider } = parsed.data;
 
     // Re-read current cart at write-time
     const { data: _rows, error: vErr } = await supabase
@@ -114,7 +127,13 @@ export default async function CheckoutPage() {
       redirect(`/checkout?error=items`);
     }
 
-    // 3) (Optional) Clear the cart now or after payment succeeds
+    // 3) Increment purchase counters (best-effort — don't block the order on failure)
+    await supabase.rpc("increment_coupon_purchases", {
+      p_coupon_ids: curItems.map((it) => it.coupon_id),
+      p_quantities: curItems.map((it) => it.quantity),
+    });
+
+    // 4) Clear the cart
     await supabase
       .from("profiles")
       .update({ shopping_cart: [] })
@@ -177,8 +196,7 @@ export default async function CheckoutPage() {
             {items.map((it) => (
               <li key={it.coupon_id} className="py-3 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={it.image ?? ""} alt={it.name} className="h-12 w-12 object-cover rounded" />
+                  <Image src={it.image ?? ""} alt={it.name} width={48} height={48} className="object-cover rounded" unoptimized />
                   <div>
                     <div className="font-medium">{it.name}</div>
                     <div className="text-sm text-gray-600">
